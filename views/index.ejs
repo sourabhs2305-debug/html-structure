@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="logo">&#9679; REGIS</span>
+      <span class="tagline">Server-Side Rendering with Express + EJS</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel panel--form">
+      <div class="panel-header">
+        <div>
+          <h1 class="panel-title">Join the List</h1>
+          <p class="panel-sub">Data is processed server-side using Node.js + EJS.</p>
+        </div>
+      </div>
+
+      <% if (message) { %>
+        <div class="flash flash--<%= message.type %>">
+          <span class="flash-icon"><%= message.type === 'success' ? '✓' : '✕' %></span>
+          <%= message.text %>
+        </div>
+      <% } %>
+
+      <form action="/submit" method="POST" class="form">
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" name="name" placeholder="Ada Lovelace" />
+          </div>
+          <div class="field">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" placeholder="ada@example.com" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="role">Role</label>
+          <select id="role" name="role">
+            <option value="Member">Member</option>
+            <option value="Developer">Developer</option>
+            <option value="Designer">Designer</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="bio">Short Bio</label>
+          <textarea id="bio" name="bio" rows="3" placeholder="Tell us about yourself..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Submit →</button>
+      </form>
+    </section>
+
+    <section class="panel panel--list">
+      <div class="panel-header">
+        <h2 class="panel-title">
+          Submissions
+          <span class="count-badge"><%= submissions.length %></span>
+        </h2>
+        <% if (submissions.length > 0) { %>
+          <form action="/clear" method="POST" style="margin:0">
+            <button type="submit" class="btn-clear">Clear all</button>
+          </form>
+        <% } %>
+      </div>
+
+      <% if (submissions.length === 0) { %>
+        <div class="empty-state">
+          <div class="empty-icon">◎</div>
+          <p>No submissions yet.</p>
+        </div>
+      <% } else { %>
+        <ul class="card-list">
+          <% submissions.forEach(function(entry) { %>
+            <li class="card">
+              <div class="card-avatar"><%= entry.name.charAt(0).toUpperCase() %></div>
+              <div class="card-body">
+                <div class="card-top">
+                  <span class="card-name"><%= entry.name %></span>
+                  <span class="card-role"><%= entry.role %></span>
+                </div>
+                <span class="card-email">✉ <%= entry.email %></span>
+                <p class="card-bio"><%= entry.bio %></p>
+                <span class="card-date">Submitted: <%= entry.createdAt %></span>
+              </div>
+            </li>
+          <% }); %>
+        </ul>
+      <% } %>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    Built with <strong>Node.js</strong> · <strong>Express</strong> · <strong>EJS</strong>
+  </footer>
+
+</body>
+</html>
