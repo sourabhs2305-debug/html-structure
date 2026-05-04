@@ -17,8 +17,8 @@ Use server-side rendering (like EJS) to dynamically display submitted data on
 the page.
 
 # following command should be run : 
-npm install
-node server.js
+# npm install
+# node server.js
 
 npm install will install all node module.
 node server.js will run the project on specified port.
